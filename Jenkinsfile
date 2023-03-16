@@ -23,15 +23,20 @@ podTemplate(yaml: '''
           mv ./kubectl /usr/local/bin/kubectl
           pwd
           cd Chapter09/sample3
-          kubectl apply -f calculator.yaml -n devops-tools
-          kubectl apply -f hazelcast.yaml  -n devops-tools
+          kubectl apply -f calculator.yaml 
+          kubectl apply -f hazelcast.yaml  
           kubectl get pods -n devops-tools
+          kubectl get pod
+          kubectl get svc
           '''
           }
         
         stage("Acceptance test") {
           sleep 60
-          sh '''chmod +x acceptance_test.sh && ./acceptance_test.sh'''
+          sh '''
+          cd Chapter09/sample3
+          chmod +x acceptance_test.sh && ./acceptance_test.sh
+          '''
         }
       }
     }
