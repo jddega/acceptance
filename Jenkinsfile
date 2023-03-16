@@ -34,7 +34,6 @@ podTemplate(yaml: '''
           }
         
         stage("Acceptance test") {
-          sleep 60
           sh '''
           curl -k -H "Authorization: Bearer $(cat
 /var/run/secrets/kubernetes.io/serviceaccount/token)"
