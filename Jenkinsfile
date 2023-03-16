@@ -16,16 +16,6 @@ podTemplate(yaml: '''
     stage('gradle') {
       container('gradle') {
         git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-        stage("build stage") {
-          sh '''
-          cd Chapter09/sample3
-          chmod +x gradlew
-          ./gradlew build
-          docker build -t calculator .
-          docker run -p 8080:8080 --name calculator calculator
-          docker ps
-          '''
-        }
         stage('start calculator') {
           sh '''
           curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
@@ -44,8 +34,7 @@ podTemplate(yaml: '''
         stage("Acceptance test") {
           sleep 60
           sh '''
-          cd Chapter09/sample3
-          chmod +x acceptance_test.sh && ./acceptance_test.sh
+          curl -i calculator-service:8080/sum?a=3\&b=3
           '''
         }
       }
