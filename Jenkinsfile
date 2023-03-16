@@ -31,7 +31,7 @@ podTemplate(yaml: '''
         stage("Acceptance test") {
      steps {
           sleep 60
-          sh "test $(curl calculator-service:8080/sum?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail"
+          sh '''chmod +x acceptance_test.sh && ./acceptance_test.sh'''
           }
         }
       }
