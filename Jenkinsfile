@@ -28,15 +28,20 @@ podTemplate(yaml: '''
           kubectl get pods -n devops-tools
           kubectl get pod
           kubectl get svc
+          kubectl get get endpoint -n devops-tools
+          kubectl get get endpoint
           '''
           }
         
         stage("Acceptance test") {
           sleep 60
           sh '''
+          curl -k -H "Authorization: Bearer $(cat
+/var/run/secrets/kubernetes.io/serviceaccount/token)"
+https://kubernetes.default.svc.cluster.loca/apis/apps/v1/namespaces/default/pods
           cd Chapter09/sample3
           chmod +x gradlew
-          test $(curl calculator-service:30912/sum?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
+          test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
           '''
         }
       }
