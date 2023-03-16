@@ -28,8 +28,8 @@ podTemplate(yaml: '''
           kubectl get pods -n devops-tools
           kubectl get pod
           kubectl get svc
-          kubectl get endpoint -n devops-tools
-          kubectl get endpoint
+          kubectl get endpoints -n devops-tools
+          kubectl get endpoints
           '''
           }
         
