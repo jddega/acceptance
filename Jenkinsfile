@@ -28,13 +28,7 @@ podTemplate(yaml: '''
           kubectl get pods -n devops-tools
           '''
           }
-        stage('Build calculator') {
-          sh '''
-          cd Chapter09/sample3
-          chmod +x gradlew
-          ./gradlew build
-          '''
-          }
+        
         stage("Acceptance test") {
           sleep 60
           sh '''chmod +x acceptance_test.sh && ./acceptance_test.sh'''
