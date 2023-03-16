@@ -15,8 +15,7 @@ podTemplate(yaml: '''
   node(POD_LABEL) {
     stage('gradle') {
       container('gradle') {
-        git
-      'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+        git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
         stage('start calculator') {
           sh '''
           cd Chapter09/sample1
@@ -29,10 +28,8 @@ podTemplate(yaml: '''
           '''
           }
         stage("Acceptance test") {
-     steps {
           sleep 60
           sh '''chmod +x acceptance_test.sh && ./acceptance_test.sh'''
-          }
         }
       }
     }
