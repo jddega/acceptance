@@ -36,7 +36,7 @@ podTemplate(yaml: '''
           sh '''
           cd Chapter09/sample3
           chmod +x gradlew
-          test $(curl calculator-service:8080/sum?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
+          test $(curl calculator-service:30912/sum?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
           '''
         }
       }
