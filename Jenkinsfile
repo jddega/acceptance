@@ -34,7 +34,8 @@ podTemplate(yaml: '''
         stage("Acceptance test") {
           sleep 60
           sh '''
-          curl -i calculator-service:8080/sum?a=3\&b=3
+          cd Chapter09/sample3
+          ./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080
           '''
         }
       }
