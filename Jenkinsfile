@@ -22,7 +22,7 @@ podTemplate(yaml: '''
           chmod +x ./kubectl
           mv ./kubectl /usr/local/bin/kubectl
           pwd
-          cd chapter09/sample3
+          cd Chapter09/sample3
           chmod +x gradlew
            ./gradlew build
 
