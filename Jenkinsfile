@@ -25,6 +25,8 @@ podTemplate(yaml: '''
           cd Chapter09/sample3
           chmod +x gradlew
            ./gradlew build
+           cd ..
+           cd ..
            pwd
           cd Chapter08/sample1
           pwd
