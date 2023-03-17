@@ -25,9 +25,11 @@ podTemplate(yaml: '''
           cd Chapter09/sample3
           chmod +x gradlew
            ./gradlew build
-
-          kubectl apply -f Chapter08/sample1/calculator.yaml -n devops-tools
-          kubectl apply -f Chapter08/sample1/hazelcast.yaml -n devops-tools
+           pwd
+          cd Chapter08/sample1
+          pwd
+          kubectl apply -f calculator.yaml -n devops-tools
+          kubectl apply -f hazelcast.yaml -n devops-tools
           '''
           }
         
