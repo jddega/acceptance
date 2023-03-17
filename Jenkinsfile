@@ -22,18 +22,13 @@ podTemplate(yaml: '''
           chmod +x ./kubectl
           mv ./kubectl /usr/local/bin/kubectl
           pwd
-          cd Chapter09/sample1
-          chmod +x gradlew
-          ./gradlew build
+          cd Chapter08/sample1
           kubectl apply -f calculator.yaml -n devops-tools
           kubectl apply -f hazelcast.yaml -n devops-tools
           kubectl get pods -n devops-tools
           kubectl get deployment -n devops-tools
-          kubectl get pod
           kubectl get svc -n devops-tools
-          kubectl get svc
           kubectl get endpoints -n devops-tools
-          kubectl get endpoints
           '''
           }
         
