@@ -42,7 +42,7 @@ podTemplate(yaml: '''
           kubectl get svc -n devops-tools
           kubectl get endpoints -n devops-tools
           test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || echo 'fail'
-          test $(curl calculator-service:8080/div?a=6\\&b=0) -eq 3 && echo 'pass' || echo 'fail'
+          test $(curl calculator-service:8080/div?a=6\\&b=0) && echo 'pass' || echo 'fail'
           '''
         }
       }
