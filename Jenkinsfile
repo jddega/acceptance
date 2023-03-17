@@ -22,23 +22,22 @@ podTemplate(yaml: '''
           chmod +x ./kubectl
           mv ./kubectl /usr/local/bin/kubectl
           pwd
-          cd Chapter08/sample1
-          kubectl apply -f calculator.yaml -n devops-tools
-          kubectl apply -f hazelcast.yaml -n devops-tools
-          kubectl get pods -n devops-tools
-          kubectl get deployment -n devops-tools
-          kubectl get svc -n devops-tools
-          kubectl get endpoints -n devops-tools
+          cd chapter09/sample3
+          chmod +x gradlew
+           ./gradlew build
+
+          kubectl apply -f Chapter08/sample1/calculator.yaml -n devops-tools
+          kubectl apply -f Chapter08/sample1/hazelcast.yaml -n devops-tools
           '''
           }
         
         stage("Acceptance test") {
           sleep 60
           sh '''
-          cd Chapter09/sample3
-          chmod +x gradlew
-           ./gradlew build
-           test $(curl calculator-service:8080/div?a=6\\/b=0) -eq 3 && echo 'pass' || echo 'fail'
+          kubectl get deployment -n devops-tools
+          kubectl get svc -n devops-tools
+          kubectl get endpoints -n devops-tools
+          test $(curl calculator-service:8080/div?a=6\\/b=0) -eq 3 && echo 'pass' || echo 'fail'
           '''
         }
       }
