@@ -38,9 +38,6 @@ podTemplate(yaml: '''
         stage("Acceptance test") {
           sleep 60
           sh '''
-          kubectl get deployment -n devops-tools
-          kubectl get svc -n devops-tools
-          kubectl get endpoints -n devops-tools
           test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || echo 'fail'
           test $(curl calculator-service:8080/div?a=6\\&b=0) && echo 'pass' || echo 'fail'
           '''
