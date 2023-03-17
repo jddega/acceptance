@@ -22,11 +22,13 @@ podTemplate(yaml: '''
           chmod +x ./kubectl
           mv ./kubectl /usr/local/bin/kubectl
           pwd
-          cd Chapter09/sample3
-          kubectl apply -f calculator.yaml 
-          kubectl apply -f hazelcast.yaml  
+          cd Chapter08/sample1
+          kubectl apply -f calculator.yaml -n devops-tools
+          kubectl apply -f hazelcast.yaml -n devops-tools
           kubectl get pods -n devops-tools
+          kubectl get deployment -n devops-tools
           kubectl get pod
+          kubectl get svc -n devops-tools
           kubectl get svc
           kubectl get endpoints -n devops-tools
           kubectl get endpoints
@@ -35,12 +37,9 @@ podTemplate(yaml: '''
         
         stage("Acceptance test") {
           sh '''
-          curl -k -H "Authorization: Bearer $(cat
-/var/run/secrets/kubernetes.io/serviceaccount/token)"
-https://kubernetes.default.svc.cluster.loca/apis/apps/v1/namespaces/default/pods
           cd Chapter09/sample3
           chmod +x gradlew
-          test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
+           ./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080
           '''
         }
       }
