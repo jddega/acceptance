@@ -38,7 +38,7 @@ podTemplate(yaml: '''
           cd Chapter09/sample3
           chmod +x gradlew
            ./gradlew build
-           test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || 'fail'
+           test $(curl calculator-service:8080/divide?a=6\\&b=2) -eq 3 && echo 'pass' || echo 'fail'
           '''
         }
       }
