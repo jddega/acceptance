@@ -43,6 +43,7 @@ podTemplate(yaml: '''
           cd Chapter09/sample3
           pwd
           chmod +x gradlew
+          ./gradlew build
           sh "./gradlew AcceptanceTest -Dcalculator.url=http://calculator-service:8080"
           '''
         }
