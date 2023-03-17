@@ -38,8 +38,7 @@ podTemplate(yaml: '''
         stage("Acceptance test") {
           sleep 60
           sh '''
-          cd ..
-          cd ..
+          pwd
           cd Chapter09/sample3
           chmod +x gradlew
           sh "./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080"
