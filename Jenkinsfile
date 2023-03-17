@@ -38,8 +38,11 @@ podTemplate(yaml: '''
         stage("Acceptance test") {
           sleep 60
           sh '''
-          test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || echo 'fail'
-          test $(curl calculator-service:8080/div?a=6\\&b=0) && echo 'pass' || echo 'fail'
+          cd ..
+          cd ..
+          cd Chapter09/sample3
+          chmod +x gradlew
+          sh "./gradlew acceptanceTest -Dcalculator.url=http://calculator-service:8080"
           '''
         }
       }
