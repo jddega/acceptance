@@ -45,6 +45,11 @@ podTemplate(yaml: '''
           ./gradlew AcceptanceTest -Dcalculator.url=http://calculator-service:8080
           '''
         }
+        publishHTML(target: [
+                reportDir: 'Chapter09/sample3/build/reports/tests/acceptanceTest',
+                reportFiles: 'index.html',
+                reportName: "JaCoCo Report"
+              ])
       }
     }
   }
