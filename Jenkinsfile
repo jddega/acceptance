@@ -48,7 +48,7 @@ podTemplate(yaml: '''
         publishHTML(target: [
                 reportDir: 'Chapter09/sample3/build/reports/tests/acceptanceTest',
                 reportFiles: 'index.html',
-                reportName: "JaCoCo Report"
+                reportName: "Acceptance Report"
               ])
       }
     }
