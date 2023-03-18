@@ -38,8 +38,7 @@ podTemplate(yaml: '''
         
         stage("Acceptance test") {
           sh '''
-          cd ..
-          cd ..
+          pwd
           cd Chapter09/sample3
           chmod +x gradlew
           ./gradlew build
