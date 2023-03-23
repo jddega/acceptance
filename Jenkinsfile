@@ -29,7 +29,6 @@ podTemplate(yaml: '''
    node(POD_LABEL) {
     stage('Deploying to prod') {
     container('cloud-sdk') {
-        git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
       stage('Connecting to GKE') {
         sh '''
         echo 'namespaces in the staging environment'
@@ -39,21 +38,6 @@ podTemplate(yaml: '''
         echo 'namespaces in the prod environment'
         kubectl get ns
         '''
-      stage('start calculator') {
-          sh '''
-          pwd
-          cd Chapter09/sample3
-          chmod +x gradlew
-          ./gradlew build
-           cd ..
-           cd ..
-           pwd
-          cd Chapter08/sample1
-          pwd
-          kubectl apply -f calculator.yaml 
-          kubectl apply -f hazelcast.yaml 
-          '''
-       }
        }
       }
      }
