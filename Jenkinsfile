@@ -39,21 +39,6 @@ podTemplate(yaml: '''
         echo 'namespaces in the prod environment'
         kubectl get ns
         '''
-      stage('start calculator') {
-          sh '''
-          pwd
-          cd Chapter09/sample3
-          chmod +x gradlew
-          ./gradlew build
-           cd ..
-           cd ..
-           pwd
-          cd Chapter08/sample1
-          pwd
-          kubectl apply -f calculator.yaml 
-          kubectl apply -f hazelcast.yaml 
-          '''
-       }
        }
       }
      }
