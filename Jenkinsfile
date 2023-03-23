@@ -1,36 +1,63 @@
 podTemplate(yaml: '''
-  apiVersion: v1
-  kind: Pod
-  spec:
-    containers:
-    - name: gradle
-      image: gradle:jdk8
-      command:
-      - sleep
-      args:
-      - 99d
-  restartPolicy: Never
-    ''') 
-{
-  node(POD_LABEL) {
-    stage('gradle') {
-      container('gradle') {
+    apiVersion: v1
+    kind: Pod
+    spec:
+      containers:
+      - name: cloud-sdk
+        image: google/cloud-sdk
+        command:
+        - sleep
+        args:
+        - 9999999
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /mnt
+        - name: google-cloud-key
+          mountPath: /var/secrets/google
+        env:
+        - name: GOOGLE_APPLICATION_CREDENTIALS
+          value: /var/secrets/google/gke_molten-crowbar-381403_us-west1_hello-cluster
+      restartPolicy: Never
+      volumes:
+      - name: shared-storage
+        persistentVolumeClaim:
+          claimName: jenkins-pv-claim
+      - name: google-cloud-key
+        secret:
+          secretName: sdk-key
+    ''') {
+   node(POD_LABEL) {
+    stage('Deploying to prod') {
+    container('cloud-sdk') {
+      stage('Build a gradle project') {
+        sh '''
+        echo 'namespaces in the staging environment'
+        kubectl get ns
+        gcloud auth login --cred-file=$GOOGLE_APPLICATION_CREDENTIALS
+        gcloud container clusters get-credentials hello-cluster --region
+        us-west1 --project molten-crowbar-381403
+        echo 'namespaces in the prod environment'
+        kubectl get ns
         git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-        stage("Acceptance test") {
+        '''
+        stage('start calculator') {
           sh '''
           pwd
           cd Chapter09/sample3
           chmod +x gradlew
-          ./gradlew build
-          ./gradlew AcceptanceTest -Dcalculator.url=http://calculator-service:8080
+           ./gradlew build
+           cd ..
+           cd ..
+           pwd
+          cd Chapter08/sample1
+          pwd
+          kubectl apply -f calculator.yaml 
+          kubectl apply -f hazelcast.yaml 
           '''
-        }
-        publishHTML(target: [
-                reportDir: 'Chapter09/sample3/build/reports/tests/acceptanceTest',
-                reportFiles: 'index.html',
-                reportName: "Acceptance Report"
-              ])
+       }
+       }
       }
-    }
-  }
+     }
+   }
 }
+      
