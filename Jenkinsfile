@@ -29,7 +29,8 @@ podTemplate(yaml: '''
    node(POD_LABEL) {
     stage('Deploying to prod') {
     container('cloud-sdk') {
-      stage('Build a gradle project') {
+        git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+      stage('Connecting to GKE') {
         sh '''
         echo 'namespaces in the staging environment'
         kubectl get ns
@@ -37,7 +38,6 @@ podTemplate(yaml: '''
         gcloud container clusters get-credentials hello-cluster --region us-west1 --project molten-crowbar-381403
         echo 'namespaces in the prod environment'
         kubectl get ns
-        git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
         '''
       stage('start calculator') {
           sh '''
