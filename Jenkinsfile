@@ -29,7 +29,6 @@ podTemplate(yaml: '''
    node(POD_LABEL) {
     stage('Deploying to prod') {
     container('cloud-sdk') {
-        git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
       stage('Connecting to GKE') {
         sh '''
         echo 'namespaces in the staging environment'
