@@ -34,18 +34,17 @@ podTemplate(yaml: '''
         echo 'namespaces in the staging environment'
         kubectl get ns
         gcloud auth login --cred-file=$GOOGLE_APPLICATION_CREDENTIALS
-        gcloud container clusters get-credentials hello-cluster --region
-        us-west1 --project molten-crowbar-381403
+        gcloud container clusters get-credentials hello-cluster --region us-west1 --project molten-crowbar-381403
         echo 'namespaces in the prod environment'
         kubectl get ns
         git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
         '''
-        stage('start calculator') {
+      stage('start calculator') {
           sh '''
           pwd
           cd Chapter09/sample3
           chmod +x gradlew
-           ./gradlew build
+          ./gradlew build
            cd ..
            cd ..
            pwd
