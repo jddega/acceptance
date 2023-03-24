@@ -15,7 +15,7 @@ podTemplate(yaml: '''
   node(POD_LABEL) {
     stage('gradle') {
       container('gradle') {
-        git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+        
           stage('Replica Before') {
               sh '''
               curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
@@ -29,6 +29,7 @@ podTemplate(yaml: '''
               
           }
           stage('Rolling up') {
+            git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
              sleep 10
               sh '''
                cd Chapter08/sample1
