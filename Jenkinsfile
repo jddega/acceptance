@@ -21,17 +21,14 @@ podTemplate(yaml: '''
               curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
               chmod +x ./kubectl
               mv ./kubectl /usr/local/bin/kubectl
-              pwd
-              cd Chapter08/sample1
-              kubectl apply -f calculator.yaml -n staging
-              kubectl apply -f hazelcast.yaml -n staging
+              kubectl get deployment -n staging
               kubectl get pods -n staging
               pwd
               '''
               
           }
           stage('Rolling up') {
-              sleep 10
+             sleep 10
               sh '''
                cd Chapter08/sample1
                kubectl apply -f calculator.yaml -n staging
@@ -40,8 +37,9 @@ podTemplate(yaml: '''
           }
         
           stage("Checking Replica After") {
-              sleep 10
+             sleep 10
               sh '''
+              kubectl get deployment -n staging
               kubectl get pods -n staging
               '''
         }
