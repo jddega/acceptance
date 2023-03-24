@@ -23,6 +23,7 @@ podTemplate(yaml: '''
               mv ./kubectl /usr/local/bin/kubectl
               kubectl get rs
               kubectl get deployment -n staging
+              kubectl get pods -n staging
               pwd
               '''
               
