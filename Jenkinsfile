@@ -22,7 +22,6 @@ podTemplate(yaml: '''
               chmod +x ./kubectl
               mv ./kubectl /usr/local/bin/kubectl
               echo 'Number of Replicas before change'
-              kubectl get rs -n staging
               kubectl get deployment -n staging
               pwd
               '''
@@ -43,7 +42,6 @@ podTemplate(yaml: '''
              sleep 10
               sh '''
               echo 'Number of Replicas after change'
-              kubectl get rs -n staging
               kubectl get deployment -n staging
               '''
         }
