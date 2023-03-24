@@ -22,6 +22,7 @@ podTemplate(yaml: '''
               chmod +x ./kubectl
               mv ./kubectl /usr/local/bin/kubectl
               pwd
+              cd Chapter08/sample1
               kubectl apply -f calculator.yaml -n staging
               kubectl apply -f hazelcast.yaml -n staging
               kubectl get pods -n staging
