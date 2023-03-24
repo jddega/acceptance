@@ -43,6 +43,7 @@ podTemplate(yaml: '''
               sh '''
               echo 'Number of Replicas after change'
               kubectl get rs -n staging
+              kubectl get deployment -n staging
               '''
         }
       }
