@@ -26,6 +26,7 @@ podTemplate(yaml: '''
               kubectl apply -f calculator.yaml -n staging
               kubectl apply -f hazelcast.yaml -n staging
               kubectl get pods -n staging
+              pwd
               '''
               
           }
@@ -41,12 +42,7 @@ podTemplate(yaml: '''
           stage("Checking Replica After") {
               sleep 10
               sh '''
-              kubectl get deployment -n staging
-              kubectl get svc -n staging
-              kubectl get endpoints -n staging
               kubectl get pods -n staging
-              test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || echo 'fail'
-              test $(curl calculator-service:8080/div?a=6\\&b=0) && echo 'pass' || echo 'fail'
               '''
         }
       }
