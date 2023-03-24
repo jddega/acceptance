@@ -32,7 +32,7 @@ podTemplate(yaml: '''
              sleep 10
               sh '''
                cd Chapter08/sample1
-               Applying Replicas change
+               echo 'Applying Replicas change'
                kubectl apply -f calculator.yaml -n staging
                kubectl apply -f hazelcast.yaml -n staging
               '''
