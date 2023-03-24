@@ -21,7 +21,7 @@ podTemplate(yaml: '''
               curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
               chmod +x ./kubectl
               mv ./kubectl /usr/local/bin/kubectl
-              Number of Replicas before change
+              echo 'Number of Replicas before change'
               kubectl get rs -n staging
               kubectl get deployment -n staging
               pwd
@@ -41,7 +41,7 @@ podTemplate(yaml: '''
           stage("Checking Replica After") {
              sleep 10
               sh '''
-              Number of Replicas after change
+              echo 'Number of Replicas after change'
               kubectl get rs -n staging
               kubectl get deployment -n staging
               '''
