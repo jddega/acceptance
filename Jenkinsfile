@@ -16,7 +16,7 @@ podTemplate(yaml: '''
     stage('gradle') {
       container('gradle') {
         
-          stage('Replica Before') {
+          stage('Replicas Before') {
               sh '''
               curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
               chmod +x ./kubectl
@@ -39,7 +39,7 @@ podTemplate(yaml: '''
               '''
           }
         
-          stage("Checking Replica After") {
+          stage("Checking Replicas After") {
              sleep 10
               sh '''
               echo 'Number of Replicas after change'
