@@ -15,35 +15,36 @@ podTemplate(yaml: '''
   node(POD_LABEL) {
     stage('gradle') {
       container('gradle') {
-        
-          stage('Replicas Before') {
-              sh '''
-              curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
-              chmod +x ./kubectl
-              mv ./kubectl /usr/local/bin/kubectl
-              echo 'Number of Replicas before change'
-              kubectl get deployment -n staging
-              pwd
-              '''
-              
-          }
-          stage('Rolling up') {
-            git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-             sleep 10
-              sh '''
-               cd Chapter08/sample1
-               echo 'Applying Replicas change'
-               kubectl apply -f calculator.yaml -n staging
-               kubectl apply -f hazelcast.yaml -n staging
-              '''
+        git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+        stage('Building new feature image') {
+          sh '''
+          curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+          mv ./kubectl /usr/local/bin/kubectl
+          pwd
+          cd Chapter08/sample1
+          chmod +x gradlew
+           ./gradlew build
+           '''
+           }
+           
+          stage(start calculator) {
+          sh '''
+          kubectl apply -f calculator.yaml -n staging
+          kubectl apply -f hazelcast.yaml -n staging
+          
+          '''
           }
         
-          stage("Checking Replicas After") {
-             sleep 10
-              sh '''
-              echo 'Number of Replicas after change'
-              kubectl get deployment -n staging
-              '''
+        stage(" Features testing") {
+          sleep 10
+          sh '''
+          echo 'Addition feature testing'
+          test $(curl calculator-service:8080/sum?a=6\\&b=2) -eq 8 && echo 'pass' || echo 'fail'
+          
+           echo 'Division feature testing'
+          test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || echo 'fail'
+          '''
         }
       }
     }
