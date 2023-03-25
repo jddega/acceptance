@@ -66,16 +66,16 @@
 					cd Chapter08/sample1
 					kubectl apply -f calculator.yaml -n staging
 				  '''
-			   
-				stage('Div testing') {
-				  sleep 30
-				  sh '''
-				   echo 'Addition testing result'
-				   test $(curl calculator-service.staging.svc.cluster.local:8080/sum?a=3\\&b=4) -eq 7 && echo 'pass' || echo 'fail'
+		}	   
+		stage('Div testing') {
+		  sleep 30
+		  sh '''
+		   echo 'Addition testing result'
+		   test $(curl calculator-service.staging.svc.cluster.local:8080/sum?a=3\\&b=4) -eq 7 && echo 'pass' || echo 'fail'
 
-				   echo 'Division testing result'
-				   test $(curl calculator-service.staging.svc.cluster.local:8080/div?a=8\\&b=4) -eq 2 && echo 'pass' || echo 'fail'
-				  '''
+		   echo 'Division testing result'
+		   test $(curl calculator-service.staging.svc.cluster.local:8080/div?a=8\\&b=4) -eq 2 && echo 'pass' || echo 'fail'
+		  '''
         }
       }
     }
