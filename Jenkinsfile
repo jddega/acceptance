@@ -1,4 +1,5 @@
-podTemplate(yaml: '''
+ 
+ podTemplate(yaml: '''
   apiVersion: v1
   kind: Pod
   spec:
@@ -26,22 +27,55 @@ podTemplate(yaml: '''
             ./gradlew build
           '''
         }
-           
-        stage('start calculator') {
-          sleep 60
-          sh '''
-            cd Chapter08/sample1
-            kubectl apply -f calculator.yaml -n staging
-            kubectl apply -f hazelcast.yaml -n staging
-          '''
-        }
-       
-        stage('Features testing') {
-          sleep 60
-          sh '''
-            test $(curl -s calculator-service.staging.svc.cluster.local:8080/sum?a=3&b=4) -eq 7 && echo 'pass' || echo 'fail' 
-            test $(curl -s calculator-service.staging.svc.cluster.local:8080/div?a=8&b=4) -eq 2 && echo 'pass' || echo 'fail'
-          '''
+		 stage('Using Kiniko:5 image') {
+				  sleep 10
+				  sh '''
+					cd Chapter08/sample1
+					sed -i 's/week8:1.1/hello-kaniko:5.0/g' calculator.yaml
+				  '''
+				}
+				   
+				stage('start calculator') {
+				  sleep 10
+				  sh '''
+					cd Chapter08/sample1
+					kubectl apply -f calculator.yaml -n staging
+					kubectl apply -f hazelcast.yaml -n staging
+				  '''
+				}
+		stage('testing 1') {
+				  sleep 30
+				  sh '''
+					echo 'Addition testing result'
+					test $(curl calculator-service.staging.svc.cluster.local:8080/sum?a=3\\&b=4) -eq 7 && echo 'pass' || echo 'fail'
+		 
+					echo 'Division testing result'
+					test $(curl calculator-service.staging.svc.cluster.local:8080/div?a=8\\&b=4) -eq 2 && echo 'pass' || echo 'fail'
+				  '''
+				}
+		stage('Using week8:1.1 image') {
+				  sleep 10
+				  sh '''
+					cd Chapter08/sample1
+					sed -i 's/hello-kaniko:5.0/week8:1.1/g' calculator.yaml
+				  '''
+				}
+		stage('start calculator') {
+				  sleep 10
+				  sh '''
+					cd Chapter08/sample1
+					kubectl apply -f calculator.yaml -n staging
+				  '''
+			   
+				stage('Div testing') {
+				  sleep 30
+				  sh '''
+				   echo 'Addition testing result'
+				   test $(curl calculator-service.staging.svc.cluster.local:8080/sum?a=3\\&b=4) -eq 7 && echo 'pass' || echo 'fail'
+
+				   echo 'Division testing result'
+				   test $(curl calculator-service.staging.svc.cluster.local:8080/div?a=8\\&b=4) -eq 2 && echo 'pass' || echo 'fail'
+				  '''
         }
       }
     }
