@@ -29,6 +29,7 @@ podTemplate(yaml: '''
            }
            
           stage('start calculator') {
+            sleep 60
           sh '''
           cd Chapter08/sample1
           kubectl apply -f calculator.yaml -n staging
