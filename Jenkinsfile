@@ -28,14 +28,14 @@ podTemplate(yaml: '''
            '''
            }
            
-          stage(start calculator) {
+          stage('start calculator') {
           sh '''
           kubectl apply -f calculator.yaml -n staging
           kubectl apply -f hazelcast.yaml -n staging
           '''
           }
         
-        stage(" Features testing") {
+        stage('Features testing') {
           sleep 10
           sh '''
           echo 'Addition feature testing'
