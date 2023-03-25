@@ -39,7 +39,7 @@ podTemplate(yaml: '''
         stage('Features testing') {
           sleep 60
           sh '''
-            test $(curl -s calculator-service.staging.svc.cluster.local:8080/sum?a=3&b=4) -eq 7 && echo 'pass' || echo 'fail'
+            test $(curl -s calculator-service.staging.svc.cluster.local:8080/sum?a=3&b=4) -eq 7 && echo 'pass' || echo 'fail' 
             test $(curl -s calculator-service.staging.svc.cluster.local:8080/div?a=8&b=4) -eq 2 && echo 'pass' || echo 'fail'
           '''
         }
