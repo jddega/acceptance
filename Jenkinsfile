@@ -30,6 +30,7 @@ podTemplate(yaml: '''
            
           stage('start calculator') {
           sh '''
+          cd Chapter08/sample1
           kubectl apply -f calculator.yaml -n staging
           kubectl apply -f hazelcast.yaml -n staging
           '''
