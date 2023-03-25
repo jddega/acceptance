@@ -37,7 +37,7 @@ podTemplate(yaml: '''
           }
         
         stage('Features testing') {
-          sleep 10
+          sleep 60
           sh '''
           echo 'Addition feature testing'
           test $(curl calculator-service:8080/add?a=6\\&b=2) -eq 8 && echo 'pass' || echo 'fail'
