@@ -22,7 +22,7 @@ podTemplate(yaml: '''
           chmod +x ./kubectl
           mv ./kubectl /usr/local/bin/kubectl
           pwd
-          cd Chapter08/sample1
+          cd Chapter09/sample3
           chmod +x gradlew
            ./gradlew build
            '''
@@ -41,6 +41,7 @@ podTemplate(yaml: '''
           sh '''
           echo 'Addition feature testing'
           test $(curl calculator-service:8080/add?a=6\\&b=2) -eq 8 && echo 'pass' || echo 'fail'
+          test $(curl calculator-service:8080/sum?a=6\\&b=2) -eq 8 && echo 'pass' || echo 'fail'
           
           echo 'Division feature testing'
           test $(curl calculator-service:8080/div?a=6\\&b=2) -eq 3 && echo 'pass' || echo 'fail'
