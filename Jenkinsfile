@@ -32,7 +32,7 @@
 	  sleep 10
 	  sh '''
 	  cd Chapter08/sample1
-	  sed -i 's/week8:1.1/hello-kaniko:5.0/g' calculator.yaml
+	  sed -i 's/hello-kaniko:5.0/hello-kaniko:5.0/g' calculator.yaml
 	  kubectl apply -f calculator.yaml -n staging
 	  kubectl apply -f hazelcast.yaml -n staging
 	  '''
