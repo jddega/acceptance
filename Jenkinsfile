@@ -4,12 +4,12 @@ podTemplate(yaml: '''
    spec:
      containers:
      - name: gradle
-     image: gradle:jdk8
+       image: gradle:jdk8
        command:
        - sleep
        args:
-         - 99d
-   restartPolicy: Never
+       - 99d
+     restartPolicy: Never
 	    ''') 
 	{
    node(POD_LABEL) {
