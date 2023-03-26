@@ -1,18 +1,17 @@
 podTemplate(yaml: '''
-   apiVersion: v1
-   kind: Pod
-   spec:
-     containers:
-     - name: gradle
-     image: gradle:jdk8
-       command:
-       - sleep
-       args:
-         - 99d
-   restartPolicy: Never
-	    ''') 
-	{
-   node(POD_LABEL) {
+    apiVersion: v1
+    kind: Pod
+    spec:
+      containers:
+      - name: gradle
+        image: gradle:jdk8
+        command:
+        - sleep
+        args:
+        - 99d
+      restartPolicy: Never
+  ''') {
+ node(POD_LABEL) {
       stage('gradle') {   
         container('gradle') {
           stage('Replicas Before') {
@@ -32,7 +31,7 @@ podTemplate(yaml: '''
               kubectl apply -f hazelcast.yaml -n staging
               echo 'Number of Replicas before change'
               kubectl get deployment -n staging
-              kubectl rs -n staging
+              kubectl get rs -n staging
               kubectl get pods -n staging
               '''
           }
@@ -50,7 +49,7 @@ podTemplate(yaml: '''
              sh '''
              echo 'Number of Replicas after change'
              kubectl get deployment -n staging
-             kubectl rs -n staging
+             kubectl get rs -n staging
              kubectl get pods -n staging
              '''
            }
