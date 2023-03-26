@@ -26,8 +26,8 @@ podTemplate(yaml: '''
         secret:
           secretName: sdk-key
     ''') {
-   node(POD_LABEL) {
-    stage('Deploying to prod') {
+  node(POD_LABEL) {
+   stage('Deploying to prod') {
     container('cloud-sdk') {
       stage('Connecting to GKE') {
         sh '''
@@ -39,26 +39,57 @@ podTemplate(yaml: '''
         kubectl get ns
         '''
        }
-     stage('smoke test') {
-       git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-          sh '''
-          Chapter09/sample3
-          chmod +x gradlew
-          ./gradlew smokeTest 
-        '''
+      podTemplate(yaml: '''
+          apiVersion: v1
+          kind: Pod
+          spec:
+            containers:
+              - name: gradle
+                image: gradle:jdk8
+                command:
+                - sleep
+                args:
+                - 99d
+            restartPolicy: Never
+      ''') {
+    node(POD_LABEL) {
+      stage('gradle') {   
+        container('gradle') {
+          stage('Actual Replicas') {
+              sh '''
+              curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
+              chmod +x ./kubectl
+              mv ./kubectl /usr/local/bin/kubectl
+              pwd
+              echo 'Number of Replicas before change'
+              kubectl get pod -n staging
+              '''
+            }
+          stage('smoke test') {
+            git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+              sh '''
+              Chapter09/sample3
+              chmod +x gradlew
+              ./gradlew build
+              mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
+              ./gradlew smokeTest 
+              '''
        }
-      stage('start calculator') {
-        if (currentBuild.result == 'SUCCESS'){
-          git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-          sh '''
-          pwd
-          Chapter08/sample1
-          kubectl apply -f calculator.yaml -n production
-          kubectl apply -f hazelcast.yaml -n production
-        '''
+          stage('start calculator') {
+            if (currentBuild.result == 'SUCCESS'){
+              git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+              sh '''
+              pwd
+              Chapter08/sample1
+              kubectl apply -f calculator.yaml -n production
+              kubectl apply -f hazelcast.yaml -n production
+            '''
+        }
         }
        }
       }
      }
+    }
    }
+  }
 }
