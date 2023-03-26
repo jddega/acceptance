@@ -25,7 +25,7 @@
 
 		  stage('Replica before change') {
 		          git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-		          sleep 10
+		      
 		          sh '''
 		          cd Chapter08/sample1
 		          kubectl apply -f calculator.yaml -n staging
