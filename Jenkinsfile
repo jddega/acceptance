@@ -22,7 +22,6 @@ podTemplate(yaml: '''
               pwd
               echo 'Number of Replicas before change'
               kubectl get pod -n staging
-              kubectl get rs -n staging
               '''
             }
           stage('Rolling up') {
