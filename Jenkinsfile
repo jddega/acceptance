@@ -31,7 +31,7 @@ podTemplate(yaml: '''
               kubectl apply -f hazelcast.yaml -n staging
               echo 'Number of Replicas before change'
               kubectl get deployment -n staging
-              kubectl rs -n staging
+              kubectl get rs -n staging
               kubectl get pods -n staging
               '''
           }
@@ -49,7 +49,7 @@ podTemplate(yaml: '''
              sh '''
              echo 'Number of Replicas after change'
              kubectl get deployment -n staging
-             kubectl rs -n staging
+             kubectl get rs -n staging
              kubectl get pods -n staging
              '''
            }
