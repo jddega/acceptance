@@ -20,8 +20,6 @@ podTemplate(yaml: '''
               chmod +x ./kubectl
               mv ./kubectl /usr/local/bin/kubectl
               pwd
-              kubectl apply -f calculator.yaml -n staging
-              kubectl apply -f hazelcast.yaml -n staging
               echo 'Number of Replicas before change'
               kubectl get deployment -n staging
               kubectl get rs -n staging
