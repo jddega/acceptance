@@ -21,9 +21,7 @@ podTemplate(yaml: '''
               mv ./kubectl /usr/local/bin/kubectl
               pwd
               echo 'Number of Replicas before change'
-              kubectl get deployment -n staging
-              kubectl get rs -n staging
-              kubectl get pods -n staging
+              kubectl get pod -n staging
               '''
             }
           stage('Rolling up') {
@@ -38,9 +36,7 @@ podTemplate(yaml: '''
              sleep 60
              sh '''
              echo 'Number of Replicas after change'
-             kubectl get deployment -n staging
-             kubectl get rs -n staging
-             kubectl get pods -n staging
+             kubectl get pod -n staging
              '''
            }
           }
