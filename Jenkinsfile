@@ -42,7 +42,9 @@ podTemplate(yaml: '''
         sh '''
         echo 'namespaces in the staging environment'
         kubectl get ns
+        gcloud config set project
         gcloud auth login --cred-file=$GOOGLE_APPLICATION_CREDENTIALS
+        gcloud config set project
         gcloud container clusters get-credentials hello-cluster --region us-west1 --project molten-crowbar-381403
         gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
         echo 'namespaces in the prod environment'
