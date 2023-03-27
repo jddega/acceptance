@@ -67,10 +67,11 @@ podTemplate(yaml: '''
             
           }
        }
-   if (currentBuild.result == 'SUCCESSFUL'){ 
-         stage('Deploying to prod') {
-             container('cloud-sdk') {
-                stage('Connecting to GKE') {
+    
+      stage('Deploying to prod') {
+          if (currentBuild.result == 'SUCCESSFUL'){
+               container('cloud-sdk') {
+                 stage('Connecting to GKE') {
                     sh '''
                     echo 'namespaces in the staging environment'
                     kubectl get ns
@@ -83,7 +84,7 @@ podTemplate(yaml: '''
                     gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
                     '''
                   }
-               stage('start calculator') {
+                stage('start calculator') {
                   git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
                      sh '''
                      cd Chapter08/sample1
