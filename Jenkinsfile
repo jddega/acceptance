@@ -65,9 +65,10 @@ podTemplate(yaml: '''
             stage('smoke test') {
             git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
+              kubectl get ns
               cd Chapter09/sample3
               chmod +x gradlew
-              ./gradlew smokeTest -Dcalculator.url=http://calculator-service.devops-tools.svc.cluster.local:8080
+              ./gradlew smokeTest -Dcalculator.url=http://calculator-service.svc.cluster.local:8080
               '''
             }
           
