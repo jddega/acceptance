@@ -67,7 +67,6 @@ podTemplate(yaml: '''
             
           }
        }
-      if (currentBuild.result == 'SUCESS'){
            stage('Deploying to prod') {
                 container('cloud-sdk') {
                    stage('Connecting to GKE') {
@@ -98,7 +97,6 @@ podTemplate(yaml: '''
                      echo 'I am deployed on google cloud'
                      kubectl get pod -n production
               }     '''   
-           }
          }
         }
     }
