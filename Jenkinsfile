@@ -51,9 +51,11 @@ podTemplate(yaml: '''
              gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
           '''
            }
-      stage('gradle') {   
-        container('gradle') {
-          stage('Installing kubectl') {
+        }
+    }
+  stage('gradle') {   
+    container('gradle') {
+        stage('Installing kubectl') {
               sh '''
               curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
               chmod +x ./kubectl
@@ -62,7 +64,7 @@ podTemplate(yaml: '''
               kubectl get pod -n production
               '''
             }
-            stage('Build') {
+         stage('Build') {
             git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
               cd Chapter08/sample1
@@ -89,8 +91,6 @@ podTemplate(yaml: '''
               kubectl apply -f hazelcast.yaml -n production
               kubectl get pod -n production
             '''
-       }
-      }
      }
     }
    }
