@@ -101,8 +101,5 @@ podTemplate(yaml: '''
            }
          }
         
-      else {
-         echo 'smoke test failed'
-     }
     }
 }
