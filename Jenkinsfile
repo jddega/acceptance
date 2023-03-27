@@ -67,12 +67,10 @@ podTemplate(yaml: '''
             
           }
        }
-    
-      post{
-          sucess{
-               stage('Deploying to prod') {
-                  container('cloud-sdk') {
-                    stage('Connecting to GKE') {
+      if (currentBuild.result == 'SUCESS'){
+           stage('Deploying to prod') {
+                container('cloud-sdk') {
+                   stage('Connecting to GKE') {
                       sh '''
                       echo 'namespaces in the staging environment'
                       kubectl get ns
@@ -100,10 +98,12 @@ podTemplate(yaml: '''
                      echo 'I am deployed on google cloud'
                      kubectl get pod -n production
               }     '''   
-         }
-        }
+          }
       }
-   }
- }
+            
+    }
+      else {
+         echo 'smoke test failed'
+     }
 }
 }
