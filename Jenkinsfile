@@ -62,13 +62,24 @@ podTemplate(yaml: '''
               kubectl get pod -n production
               '''
             }
+            stage('Buildt') {
+            git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+              sh '''
+              cd Chapter08/sample1
+              chmod +x gradlew
+              ./gradlew build
+              ls -al
+              mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
+              ls -al
+              
+              '''
+            }
             stage('smoke test') {
             git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
               cd Chapter09/sample3
               chmod +x gradlew
-              ./gradlew build
-              ./gradlew smokeTest 
+              ./gradlew smokeTest -Dcalculator.url=http://calculator-service.staging.svc.cluster.local:8080 
               '''
             }
           
