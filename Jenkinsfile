@@ -57,7 +57,7 @@ podTemplate(yaml: '''
     node(POD_LABEL) {
       stage('gradle') {   
         container('gradle') {
-          stage('Actual Replicas') {
+          stage('Installing kubectl') {
               sh '''
               curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
               chmod +x ./kubectl
@@ -67,16 +67,7 @@ podTemplate(yaml: '''
               kubectl get pod -n staging
               '''
             }
-          stage('smoke test') {
-            git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-              sh '''
-              Chapter08/sample1
-              chmod +x gradlew
-              ./gradlew build
-              mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
-              ./gradlew smokeTest 
-              '''
-       }
+          
           stage('start calculator') {
             if (currentBuild.result == 'SUCCESS'){
               git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
