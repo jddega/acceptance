@@ -39,7 +39,8 @@ podTemplate(yaml: '''
    stage('Deploying to prod') {
     container('cloud-sdk') {
       stage('Connecting to GKE') {
-        with(credentials([file(credentialsId: 'gcloud-creds', variables: 'GCLOUD_CREDS')]) 
+          steps{
+             with(credentials([file(credentialsId: 'gcloud-creds', variables: 'GCLOUD_CREDS')]) 
              
             {
              sh '''
@@ -54,6 +55,7 @@ podTemplate(yaml: '''
              kubectl get ns
              gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
           '''}
+           }
        }
       stage('gradle') {   
         container('gradle') {
