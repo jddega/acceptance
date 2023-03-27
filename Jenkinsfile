@@ -3,6 +3,15 @@ podTemplate(yaml: '''
     kind: Pod
     spec:
       containers:
+      - name: gradle
+        image: gradle:6.3-jdk14
+        command:
+        - sleep
+        args:
+        - 99d
+        volumeMounts:
+        - name: shared-storage
+          mountPath: /mnt
       - name: cloud-sdk
         image: google/cloud-sdk
         command:
@@ -41,20 +50,6 @@ podTemplate(yaml: '''
         gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
         '''
        }
-      podTemplate(yaml: '''
-          apiVersion: v1
-          kind: Pod
-          spec:
-            containers:
-              - name: gradle
-                image: gradle:jdk8
-                command:
-                - sleep
-                args:
-                - 99d
-            restartPolicy: Never
-      ''') {
-    node(POD_LABEL) {
       stage('gradle') {   
         container('gradle') {
           stage('Installing kubectl') {
@@ -67,8 +62,7 @@ podTemplate(yaml: '''
               '''
             }
           
-          stage('start calculator') {
-            if (currentBuild.result == 'SUCCESS'){
+           stage('start calculator') {
               git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
               pwd
@@ -77,8 +71,6 @@ podTemplate(yaml: '''
               kubectl apply -f hazelcast.yaml -n production
               kubectl get pod -n production
             '''
-        }
-        }
        }
       }
      }
@@ -86,4 +78,3 @@ podTemplate(yaml: '''
    }
   }
  }
-}
