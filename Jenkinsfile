@@ -63,8 +63,7 @@ podTemplate(yaml: '''
               chmod +x ./kubectl
               mv ./kubectl /usr/local/bin/kubectl
               pwd
-              echo 'Number of Replicas before change'
-              kubectl get pod -n staging
+              kubectl get pod -n production
               '''
             }
           
@@ -76,6 +75,7 @@ podTemplate(yaml: '''
               Chapter08/sample1
               kubectl apply -f calculator.yaml -n production
               kubectl apply -f hazelcast.yaml -n production
+              kubectl get pod -n production
             '''
         }
         }
