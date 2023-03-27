@@ -68,7 +68,6 @@ podTemplate(yaml: '''
             }
           
           stage('start calculator') {
-            if (currentBuild.result == 'SUCCESS'){
               git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
               pwd
@@ -77,7 +76,6 @@ podTemplate(yaml: '''
               kubectl apply -f hazelcast.yaml -n production
               kubectl get pod -n production
             '''
-        }
         }
        }
       }
