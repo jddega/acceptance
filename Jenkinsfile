@@ -59,10 +59,12 @@ podTemplate(yaml: '''
             }
            stage('smoke test') {
               sh '''
+              cd Chapter08/sample1
               chmod +x gradlew
               ./gradlew smokeTest -Dcalculator.url=http://10.1.3.7:8080
               '''
             }
+            
           }
        }
       stage('Deploying to prod') {
