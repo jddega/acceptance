@@ -67,32 +67,40 @@ podTemplate(yaml: '''
             
           }
        }
-      stage('Deploying to prod') {
-          container('cloud-sdk') {
-            stage('Connecting to GKE') {
-             sh '''
-             echo 'namespaces in the staging environment'
-             kubectl get ns
-             gcloud config set project molten-crowbar-381403
-             gcloud auth login --cred-file=$GOOGLE_APPLICATION_CREDENTIALS
-             gcloud container clusters get-credentials hello-cluster --region us-west1 --project molten-crowbar-381403
-             gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
-             echo 'namespaces in the prod environment'
-             kubectl get ns
-             gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
-          '''
-           }
-          stage('start calculator') {
-              git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
-              sh '''
-              pwd
-              cd Chapter08/sample1
-              kubectl apply -f calculator.yaml -n production
-              kubectl apply -f hazelcast.yaml -n production
-              kubectl get pod -n production
-            '''
+   if (currentBuild.result == 'SUCCESSFUL'){ 
+         stage('Deploying to prod') {
+             container('cloud-sdk') {
+                stage('Connecting to GKE') {
+                    sh '''
+                    echo 'namespaces in the staging environment'
+                    kubectl get ns
+                    gcloud config set project molten-crowbar-381403
+                    gcloud auth login --cred-file=$GOOGLE_APPLICATION_CREDENTIALS
+                    gcloud container clusters get-credentials hello-cluster --region us-west1 --project molten-crowbar-381403
+                    gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
+                    echo 'namespaces in the prod environment'
+                    kubectl get ns
+                    gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
+                    '''
+                  }
+               stage('start calculator') {
+                  git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+                     sh '''
+                     cd Chapter08/sample1
+                     kubectl apply -f calculator.yaml -n production
+                     kubectl apply -f hazelcast.yaml -n production
+                     kubectl get pod -n production
+                 '''    
+              }
+             stage('start calculator') {
+                  sleep 60
+                     sh '''
+                     echo 'I am deployed on google cloud'
+                     kubectl get pod -n production
+                   '''   
          }
         }
       }
    }
  }
+}
