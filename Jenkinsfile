@@ -37,8 +37,8 @@ podTemplate(yaml: '''
     ''') {
   node(POD_LABEL) {
    stage('Deploying to prod') {
-    container('cloud-sdk') {
-      stage('Connecting to GKE') {
+      container('cloud-sdk') {
+        stage('Connecting to GKE') {
              sh '''
              echo 'namespaces in the staging environment'
              kubectl get ns
@@ -53,10 +53,10 @@ podTemplate(yaml: '''
            }
         }
     }
-  stage('gradle') {   
-    container('gradle') {
+   stage('gradle') {   
+      container('gradle') {
         stage('Installing kubectl') {
-              sh '''
+               sh '''
               curl -LO https://storage.googleapis.com/kubernetes-release/release/`curl -s https://storage.googleapis.com/kubernetes-release/release/stable.txt`/bin/linux/amd64/kubectl
               chmod +x ./kubectl
               mv ./kubectl /usr/local/bin/kubectl
@@ -64,25 +64,30 @@ podTemplate(yaml: '''
               kubectl get pod -n production
               '''
             }
-         stage('Build') {
+          stage('Build') {
             git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
+              pwd
               cd Chapter08/sample1
               chmod +x gradlew
-              ./gradlew build   
+              ./gradlew build
+              mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
+              pwd
+              ls -al
+              cd ..
+              cd ..
+              
               '''
             }
-            stage('smoke test') {
-            git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+           stage('smoke test') {
               sh '''
-              ls -al
               cd Chapter09/sample3
               chmod +x gradlew
-              ./gradlew smokeTest -Dcalculator.url=http://calculator-service:8080
+              ./gradlew smokeTest -Dcalculator.url=http://calculator-service.staging.svc.cluster.local:8080
               '''
             }
           
-           stage('start calculator') {
+            stage('start calculator') {
               git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
               pwd
