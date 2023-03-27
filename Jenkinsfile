@@ -39,19 +39,21 @@ podTemplate(yaml: '''
    stage('Deploying to prod') {
     container('cloud-sdk') {
       stage('Connecting to GKE') {
-        with(credentials([file(credentialsId: 'gcloud-creds', variables: 'GCLOUD_CREDS')]) {
-          sh '''
-          echo 'namespaces in the staging environment'
-          kubectl get ns
-          gcloud config set project molten-crowbar-381403
-          gcloud auth login --cred-file=$GOOGLE_APPLICATION_CREDENTIALS
-          gcloud auth activate-service-account --key-file='$GCLOUD_CREDS'
-          gcloud container clusters get-credentials hello-cluster --region us-west1 --project molten-crowbar-381403
-          gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
-          echo 'namespaces in the prod environment'
-          kubectl get ns
-          gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
-        '''
+        with(credentials([file(credentialsId: 'gcloud-creds', variables: 'GCLOUD_CREDS')]) 
+             
+            {
+             sh '''
+             echo 'namespaces in the staging environment'
+             kubectl get ns
+             gcloud config set project molten-crowbar-381403
+             gcloud auth login --cred-file=$GOOGLE_APPLICATION_CREDENTIALS
+             gcloud auth activate-service-account --key-file='$GCLOUD_CREDS'
+             gcloud container clusters get-credentials hello-cluster --region us-west1 --project molten-crowbar-381403
+             gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
+             echo 'namespaces in the prod environment'
+             kubectl get ns
+             gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
+          '''}
        }
       stage('gradle') {   
         container('gradle') {
