@@ -62,7 +62,7 @@ podTemplate(yaml: '''
               kubectl get pod -n production
               '''
             }
-            stage('Buildt') {
+            stage('Build') {
             git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
               cd Chapter08/sample1
