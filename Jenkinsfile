@@ -98,12 +98,11 @@ podTemplate(yaml: '''
                      echo 'I am deployed on google cloud'
                      kubectl get pod -n production
               }     '''   
-          }
-      }
-            
-    }
+           }
+         }
+        
       else {
          echo 'smoke test failed'
      }
-
+    }
 }
