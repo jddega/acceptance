@@ -76,7 +76,7 @@ podTemplate(yaml: '''
               ls -al
               cd Chapter09/sample3
               chmod +x gradlew
-              ./gradlew smokeTest -Dcalculator.url=http://10.1.3.7:8080
+              ./gradlew smokeTest -Dcalculator.url=http://10.99.209.221:8080
               '''
             }
           
