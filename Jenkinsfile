@@ -52,7 +52,6 @@ podTemplate(yaml: '''
           kubectl get ns
           gcloud services enable cloudresourcemanager.googleapis.com pubsub.googleapis.com  container.googleapis.com --project molten-crowbar-381403
         '''
-         }
        }
       stage('gradle') {   
         container('gradle') {
