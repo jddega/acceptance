@@ -67,8 +67,7 @@ podTemplate(yaml: '''
               sh '''
               cd Chapter09/sample3
               chmod +x gradlew
-              ./gradlew build
-              ./gradlew smokeTest -Dcalculator.url=http://calculator-service.staging.svc.cluster.local:8080
+              ./gradlew smokeTest -Dcalculator.url=http://calculator-service.devops-tools.svc.cluster.local:8080
               '''
             }
           
