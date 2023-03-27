@@ -63,12 +63,22 @@ podTemplate(yaml: '''
               kubectl get pod -n production
               '''
             }
+            stage('smoke test') {
+            git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
+              sh '''
+              cd Chapter08/sample1
+              chmod +x gradlew
+              ./gradlew build
+              mv ./build/libs/calculator-0.0.1-SNAPSHOT.jar /mnt
+              ./gradlew smokeTest 
+              '''
+            }
           
            stage('start calculator') {
               git 'https://github.com/jddega/Continuous-Delivery-with-Docker-and-Jenkins-Second-Edition.git'
               sh '''
               pwd
-              Chapter08/sample1
+              cd Chapter08/sample1
               kubectl apply -f calculator.yaml -n production
               kubectl apply -f hazelcast.yaml -n production
               kubectl get pod -n production
