@@ -96,7 +96,7 @@ podTemplate(yaml: '''
                      sh '''
                      echo 'I am deployed on google cloud'
                      kubectl get pod -n production
-              }     '''   
+                    '''         
          }
         }
     }
